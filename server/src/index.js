@@ -27,11 +27,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Serve static files from public directory
-app.use(express.static('../public'));
+app.use(express.static('./public'));
 
 // Serve index.html for root path
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: '../public' });
+  res.sendFile('index.html', { root: './public' });
 });
 
 // API Routes
