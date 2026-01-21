@@ -5,10 +5,13 @@ import pickle
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-# Ensure repo root is on path so ML modules can be imported if needed
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+# Ensure current directory and ML folder are on path so ML modules can be imported
+ROOT = os.path.abspath(os.path.dirname(__file__))
+ML_ROOT = os.path.join(ROOT, 'ML')
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
+if ML_ROOT not in sys.path:
+    sys.path.insert(0, ML_ROOT)
 
 # Try to import custom fetal module (defines ManualGaussianNB) so unpickling can resolve the class
 try:
@@ -31,7 +34,7 @@ except Exception:
 APP = Flask(__name__)
 CORS(APP)
 
-# Paths to models (relative to repo root)
+# Paths to models (relative to current directory)
 FETAL_MODEL_PATH = os.path.join(ROOT, 'ML', 'fetal', 'manual_gaussian_nb_with_purity.pkl')
 MATERNAL_MODEL_PATH = os.path.join(ROOT, 'ML', 'mother', 'boosted_tree_model.pkl')
 
