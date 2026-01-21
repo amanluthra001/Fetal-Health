@@ -147,7 +147,14 @@ def predict():
 
         model = load_pickle(FETAL_MODEL_PATH)
         X = normalize_input(data, feature_order)
-        pred = model.predict(X)
+        
+        # Fetal model is stored as a dict with 'model' key
+        if isinstance(model, dict) and 'model' in model:
+            actual_model = model['model']
+            pred = actual_model.predict(X)
+        else:
+            pred = model.predict(X)
+            
         # fetal labels are numeric (1/2/3). Return both numeric and mapped text
         label = pred[0]
         label_map = {1: 'Normal', 2: 'Suspect', 3: 'Pathological'}
